@@ -1,7 +1,7 @@
-# CÁLCULO DO PRIMEIRO E SEGUNDO DIGITO DO CPF
-cpf = input("Digite seu CPF (somente números): ")
+# Calculation of the first and second CPF digits
+cpf = input("Enter your CPF (numbers only): ")
 
-# Cálculo do primeiro dígito
+# Calculation of the first digit
 somar_1 = sum(int(cpf[i]) for i in range(9))
 multiplicar_1 = sum(int(cpf[i]) * (10 - i) for i in range(9))
 multiplicar10_1 = multiplicar_1 * 10
@@ -13,7 +13,7 @@ if resto_1 > 9:
 else:
     resultado_1 = resto_1
 
-# Cálculo do segundo dígito
+# Calculation of the second digit
 somar_2 = sum(int(cpf[i]) for i in range(10))
 multiplicar_2 = sum(int(cpf[i]) * (11 - i) for i in range(10))
 multiplicar10_2 = multiplicar_2 * 10
@@ -25,8 +25,8 @@ if resto_2 > 9:
 else:
     resultado_2 = resto_2
 
-# Verificador
+# Verifier
 if resultado_1 != verificador_1 or resultado_2 != verificador_2:
-    print("CPF solicitado não é válido")
+    print("The entered CPF is not valid")
 else:
-    print("CPF solicitado é válido")
+    print("The entered CPF is valid")
