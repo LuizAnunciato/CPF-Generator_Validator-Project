@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPF Generator</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            text-align: center;
+            font-weight: normal;
+            color: #333333;
+            margin-top: -5px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            text-align: center;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0;
+        }
+
+        div {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 30px;
+            flex-direction: column;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;
+        }
+
+        #generateButton {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #generateButton:hover {
+            background-color: #0056b3;
+        }
+
+        #copyButton {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #copyButton:hover {
+            background-color: #218838;
+        }
+
+        #cpfDisplay {
+            padding: 15px 30px;
+            border: 1px solid #aaa;
+            width: 50%;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+            background-color: #f0f8ff;
+            border-radius: 12px;
+            font-family: monospace;
+            color: #333333;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #copiedButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #copiedButton.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>CPF Generator</h1>
+
+    <p>Click the Generate CPF button to generate as many valid CPF numbers as you want You can also choose the state of origin and the punctuation format if you wish Also check out our <a href="validate-cpf.html">Validate CPF</a></p>
+
+    <div id="cpfDisplay">XXXXXXXXXXX</div>
+
+    <div>
+        <button id="generateButton" onclick="generateCPF()">GENERATE CPF</button>
+        <button id="copyButton" onclick="copyCPF()">COPY</button>
+    </div>
+
+    <button id="copiedButton">Copied Successfully!</button>
+
+    <script>
+        function generateCPF() {
+            let nove_digitos = '';
+            for (let i = 0; i < 9; i++) {
+                nove_digitos += Math.floor(Math.random() * 10);
+            }
+
+            let multiplicar_1 = 0;
+            for (let i = 0; i < 9; i++) {
+                multiplicar_1 += parseInt(nove_digitos[i]) * (10 - i);
+            }
+            let resto_1 = multiplicar_1 % 11;
+            let resultado_1 = (resto_1 < 2) ? 0 : 11 - resto_1;
+
+            let multiplicar_2 = 0;
+            for (let i = 0; i < 9; i++) {
+                multiplicar_2 += parseInt(nove_digitos[i]) * (11 - i);
+            }
+            multiplicar_2 += resultado_1 * 2;
+            let resto_2 = multiplicar_2 % 11;
+            let resultado_2 = (resto_2 < 2) ? 0 : 11 - resto_2;
+
+            let cpf_completo = nove_digitos + resultado_1 + resultado_2;
+
+            document.getElementById('cpfDisplay').innerText = cpf_completo;
+        }
+
+        function copyCPF() {
+            let cpf = document.getElementById('cpfDisplay').innerText;
+
+            let tempInput = document.createElement('textarea');
+            tempInput.value = cpf;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            let copiedButton = document.getElementById('copiedButton');
+            copiedButton.classList.add('show');
+            setTimeout(() => {
+                copiedButton.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+    <p style="font-size: 10px; text-align: center; color: #555; margin-top: 20px;">Important Improper use of the data presented here is the sole responsibility of the user</p>
+</body>
+</html>
